@@ -1,9 +1,100 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Quote Of The Day</title>
-        <style type="text/css"></style>
-    </head>
+<html lang="en">
+<head>
+  <title>Quote of the Day</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    body {
+      background-color: antiquewhite;
+    }
+    p, h1 {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: small;
+      padding-left: 20px;
+    }
+    h2 {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      padding-left: 20px;
+    }
+    h3 {
+      padding-left: 20px;
+      font-size: large;
+      font-weight: bold;
+    }
+    .headline {
+      color: black;
+    }
+    .navbar {
+      background-color: black;
+      font-family:Georgia, 'Times New Roman', Times, serif;
+      padding:0%;
+      padding-bottom: 0%;
+    }
+    .navbar-brand {
+      color: blanchedalmond;
+      padding-top: 20%;
+      padding-bottom: 20%;
+    }
+    .navbar-header {
+      background-color: black;
+      color: blanchedalmond;
+      padding: 20px;
+      text-align: center;
+    }
+    .list-inline {
+      display: inline;
+    }
+    .list-inline-item {
+      padding-top: 10%;
+      padding-bottom: 10%;
+      padding-left: 30px;
+      color: blanchedalmond;
+      display: inline-flex;
+      justify-content: space-between;
+    }
+    .list-inline-item:hover {
+      background-color: blanchedalmond;
+      color:black;
+      display: inline-block;
+    }
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      padding: 20px;
+    }
+    .column {
+      float: left;
+      width: 30%;
+      padding: 15px;
+    }
+    .column_main {
+      margin: 20px;
+      width: 50%;
+      padding: 15px;
+
+    }
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  </style>
+</head>
+
+<nav class="navbar">
+    <div class="container-fluid">
+      <div class="navbar-header"><b>Quote of the Day</b></div>
+      <div class="nav navbar-nav">
+        </ul>
+      </div>
+    </div>
+  </nav>
+
     <body>
         <main>
         <div class="container">
@@ -24,7 +115,6 @@
                 <pre id="response" class="response">
                     <!-- response from server goes here -->
                 </pre>
-              
             </fieldset>
             </form>
         </div>

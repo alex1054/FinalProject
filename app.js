@@ -52,9 +52,9 @@ app.post('/qod', (req, res) => {
         console.log('date: ', d + '/' + m);
         console.log('week: %d', week);
 
-        res.send('<h1>' + quotes[week-1] + '</h1>');
+        res.send('<h1>' + quotes[week-1] + '</h1>' + '<a href="http://localhost:3000/qod">Enter a new date</a>');
     } else {
-        res.send('<h1> No quote found for the given date.</h1>');
+        res.send('<h1> No quote found for the given date.</h1>' + '<a href="http://localhost:3000/qod">Enter a new date</a>');
     }
 
 });
