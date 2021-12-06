@@ -35,7 +35,7 @@ app.get('/qod', (req, res) => {
     res.sendFile('qod.html', { root: '.' });
 });
 
-app.post('/qod', API.validateKey, (req, res) => {
+app.post('/qod', (req, res) => {
     console.log('post qod');
     let d = Number(req.body.day);
     let m = String(req.body.month);
