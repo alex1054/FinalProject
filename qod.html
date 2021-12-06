@@ -1,0 +1,28 @@
+<div class="container">
+    <form action="http://localhost:3000/qoddate" method="POST" id="qodForm">
+        <fieldset>
+            <legend>Input Date</legend>
+            <div class="form-group">
+                <label for="month">Month (e.g. 01)</label>
+                <input type="text" id="month" name="month">
+            </div>
+            <div class="form-group">
+                <label for="day">Day (e.g. 01)</label>
+                <input type="text" id="day" name="day">
+            </div>
+            <div class="form-group">
+                <label for="year">Year (e.g. 2001)</label>
+                <input type="text" id="year" name="year">
+            </div>
+            <div class="form-group">
+                <button id="submit">Submit</button>
+            </div>
+            <pre class="response">
+
+            </pre>
+        </fieldset>
+    </form>
+    <p id="qodDisplay"></p>
+    <a href="http://localhost:3000/qod">Enter a new date.</a>
+    <a href="http://localhost:3000">Logout</a>
+</div>

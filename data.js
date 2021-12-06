@@ -2,7 +2,7 @@ const users = [
     {
         email: 'alex.gutierrez@gmail.com',
         username: 'aguite10',
-        apikey: '',
+        apikey: 'wmu6cn55cfqlwrn08ejzg38u3719rv',
         host: 'http://localhost:3000',
         usage: [{date:'2021-11-30', count: 25}],
     },

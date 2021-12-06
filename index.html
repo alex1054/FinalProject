@@ -6,7 +6,7 @@
     </head>
     <body>
         <div class="container">
-            <form method="POST" id="regForm">
+            <form action="http://localhost:3000/register" method="POST" id="regForm">
                 <div class="form-group">
                     <label for="Username">Username</label>
                     <input class="form-control" name="username" id="username" type="username">
@@ -31,7 +31,7 @@
                 </pre>
             </form>
 
-            <form method="POST" id="qodForm">
+            <form action="http://localhost:3000/qoddate" method="POST" id="qodForm">
                 <fieldset>
                     <legend>Input Date</legend>
                     <div class="form-group">
@@ -72,12 +72,12 @@
             let username = document.getElementById('username').value;
             let email = document.getElementById('email').value;
             let data = JSON.stringify({username, email});
-            send('api/register', data, 'POST');
+            send('register', data, 'POST');
         }
         function doLog(ev) {
             ev.preventDefault();
             currentForm = 'getForm';
-            send('api/qod', null, 'GET')
+            send('qod', null, 'GET')
         }
         function doSub(ev) {
             ev.preventDefault();
@@ -86,7 +86,7 @@
             let year = document.getElementById('year').value;
             let data = JSON.stringify({month, day, year});
             currentForm = 'qodForm';
-            send('api/qoddate', data, 'GET');
+            send('qoddate', data, 'GET');
         }
         function send(endpoint, data, method) {
             let key = JSON.stringify(sessionStorage.getItem('mySiteAPIKey'));
@@ -113,7 +113,7 @@
         }
         function fail(err) {
             console.warn(err.message);
-            let pre = document.querySelector(`#${currentForm}.response`);
+            let pre = document.querySelector(`#${currentForm} .response`);
             pre.textContent = err.message;
         }
         function success(content) {
@@ -122,7 +122,7 @@
                 return;
             }
             let data = content.data;
-            let pre = document.querySelector(`#${currentForm}.response`);
+            let pre = document.querySelector(`#${currentForm} .response`);
             pre.textContent = JSON.stringify(data, '\n', 2);
 
             if (currentForm == 'regForm') {

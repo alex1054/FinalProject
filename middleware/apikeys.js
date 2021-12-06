@@ -1,4 +1,4 @@
-const users = require('./data').users;
+const users = require('../data').users;
 const MAX = process.env.API_MAX || 25;
 
 const genKey = () => {
@@ -13,20 +13,23 @@ const createUser = (_email, _username, req) => {
         email: _email,
         username: _username,
         apikey: genKey(),
-        host: req.headers.origin,
+        host: req.headers.host,
         usage: [{ date: today, count: 0}]
     };
 
     console.log('add user');
+    console.log('email: ', _email);
+    console.log('u_name: ', _username);
     users.push(user);
     return user;
 };
 
 const validateKey = (req, res, next) => {
-    let host = req.headers.origin;
-    let apikey = req.header('x-api-key');
+    let _host = req.headers.host;
+    let _apikey = req.get('x-api-key');
+    console.log(req.headers);
     let account = users.find(
-        (user) => user.host == host && user.apikey == apikey
+        (user) => user.host == _host && user.apikey == _apikey
     );
 
     if (account) {
