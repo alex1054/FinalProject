@@ -1,7 +1,7 @@
 const users = require('../data').users;
 const MAX = process.env.API_MAX || 25;
 
-const genKey = () => {
+const getKey = () => {
     return [...Array(30)]
         .map((e) => ((Math.random() * 36) | 0).toString(36))
         .join('');
@@ -12,14 +12,10 @@ const createUser = (_email, _username, req) => {
     let user = {
         email: _email,
         username: _username,
-        apikey: genKey(),
+        apikey: getKey(),
         host: req.headers.host,
         usage: [{ date: today, count: 0}]
     };
-
-    console.log('add user');
-    console.log('email: ', _email);
-    console.log('u_name: ', _username);
     users.push(user);
     return user;
 };
@@ -27,7 +23,6 @@ const createUser = (_email, _username, req) => {
 const validateKey = (req, res, next) => {
     let _host = req.headers.host;
     let _apikey = req.get('x-api-key');
-    console.log(req.headers);
     let account = users.find(
         (user) => user.host == _host && user.apikey == _apikey
     );

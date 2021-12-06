@@ -5,130 +5,84 @@
         <style type="text/css"></style>
     </head>
     <body>
+        <main>
         <div class="container">
-            <form action="http://localhost:3000/register" method="POST" id="regForm">
+            <form method="POST" id="regForm">
+                <fieldset>
                 <div class="form-group">
                     <label for="Username">Username</label>
-                    <input class="form-control" name="username" id="username" type="username">
+                    <input required="true" class="form-control" name="username" id="username" type="username">
                 </div>
                 <div class="form-group">
                     <label for="Email">Email</label>
-                    <input class="form-control" name="email" id="email" type="email">
+                    <input required="true" class="form-control" name="email" id="email" type="email">
                 </div>
-                <button type="register" class="btn btn-primary" id="reg">Register</button>
-                <pre class="response">
-
-                </pre>
-            </form>
-            <form method="GET" id="getForm">
                 <div class="form-group">
-                    <label for="API Key">API Key</label>
-                    <input class="form-control" name="key" id="key" type="key">
+                    <button onclick="reg" class="btn btn-primary">Register</button>
                 </div>
-                <button type="login" class="btn btn-primary" id="login">Login</button>
-                <pre class="response">
-                    
+ 
+                <pre id="response" class="response">
+                    <!-- response from server goes here -->
                 </pre>
-            </form>
-
-            <form action="http://localhost:3000/qoddate" method="POST" id="qodForm">
-                <fieldset>
-                    <legend>Input Date</legend>
-                    <div class="form-group">
-                        <label for="month">Month (e.g. 01)</label>
-                        <input type="text" id="month" name="month">
-                    </div>
-                    <div class="form-group">
-                        <label for="day">Day (e.g. 01)</label>
-                        <input type="text" id="day" name="day">
-                    </div>
-                    <div class="form-group">
-                        <label for="year">Year (e.g. 2001)</label>
-                        <input type="text" id="year" name="year">
-                    </div>
-                    <div class="form-group">
-                        <button id="submit">Submit</button>
-                    </div>
-                    <pre class="response">
-
-                    </pre>
-                </fieldset>
+              
+            </fieldset>
             </form>
         </div>
-        
-    </body>
+        </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('reg').addEventListener('click', doReg);
-            document.getElementById('login').addEventListener('click', doLog);
-            document.getElementById('submit').addEventListener('click', doSub);
-        });
-        let currentForm = null;
 
-        function doReg(ev) {
-            ev.preventDefault();
-            currentForm = 'regForm';
+        function reg() {
             let username = document.getElementById('username').value;
             let email = document.getElementById('email').value;
-            let data = JSON.stringify({username, email});
-            send('register', data, 'POST');
+            let data = {username, email};
+            send('', data, 'POST');
         }
-        function doLog(ev) {
-            ev.preventDefault();
-            currentForm = 'getForm';
-            send('qod', null, 'GET')
-        }
-        function doSub(ev) {
-            ev.preventDefault();
-            let month = document.getElementById('month').value;
-            let day = document.getElementById('day').value;
-            let year = document.getElementById('year').value;
-            let data = JSON.stringify({month, day, year});
-            currentForm = 'qodForm';
-            send('qoddate', data, 'GET');
-        }
+
         function send(endpoint, data, method) {
-            let key = JSON.stringify(sessionStorage.getItem('mySiteAPIKey'));
-            let url;
-            //if (currentForm != 'regForm') {
-            //    url = `http://localhost:3000/${endpoint}/${key}`;
-            //} else {
-            url = `http://localhost:3000/${endpoint}`;
-            //}
+
+            let key = localStorage.getItem('qodAPIKey');
+
+            let url = `http://localhost:3000/${endpoint}`;
+            
             let h = new Headers();
-            if (data) {
-                h.append('Content-Type', 'application/json')
-            }
+            h.append('Content-Type', 'text/plain');
+
             h.append('x-api-key', key);
+            
             let req = new Request(url, {
-                method, 
-                headers: h, 
+                method,
+                headers: h,
                 body: data,
             });
+            
             fetch(req)
                 .then((res) => res.json())
                 .then(success)
-                .then(fail);
+                .catch(fail);
         }
+
         function fail(err) {
-            console.warn(err.message);
-            let pre = document.querySelector(`#${currentForm} .response`);
-            pre.textContent = err.message;
+            console.log(err);
+            console.warn('Error occured');
         }
+
         function success(content) {
+
             if ('error' in content) {
                 fail(content.error);
+                console.log(content.error);
                 return;
             }
+            
             let data = content.data;
-            let pre = document.querySelector(`#${currentForm} .response`);
-            pre.textContent = JSON.stringify(data, '\n', 2);
 
-            if (currentForm == 'regForm') {
-                console.log('saving api key');
-                sessionStorage.setItem('mySiteAPIkey', data.apikey);
-            }
+
+            console.log('saving api key');
+            localStorage.setItem('qodAPIkey', data.apikey);
+            //console.log('data.apikey: ', data.apikey);
         }
+
     </script>
+    </body>
 </html>

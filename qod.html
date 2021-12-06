@@ -1,28 +1,100 @@
-<div class="container">
-    <form action="http://localhost:3000/qoddate" method="POST" id="qodForm">
-        <fieldset>
-            <legend>Input Date</legend>
-            <div class="form-group">
-                <label for="month">Month (e.g. 01)</label>
-                <input type="text" id="month" name="month">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Quote Of The Day</title>
+        <style type="text/css"></style>
+    </head>
+    <body>
+        <main>
+            <div class="container">
+                <form method="POST" id="qodForm">
+                    <fieldset>
+                        <legend>Input Date</legend>
+                        <div class="form-group">
+                            <label for="month">Month (e.g. 01)</label>
+                            <input required="true" type="text" id="month" name="month">
+                        </div>
+                        <div class="form-group">
+                            <label for="day">Day (e.g. 01)</label>
+                            <input required="true" type="number" id="day" name="day">
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year (e.g. 2001)</label>
+                            <input required="true" type="text" id="year" name="year">
+                        </div>
+                        <div class="form-group">
+                            <button onclick="doSub" id="submit">Submit</button>
+                        </div>
+                        <pre id="response" class="response">
+                            <!-- response from server goes here -->
+                        </pre>
+                    </fieldset>
+                </form>
+                <a href="http://localhost:3000/qod">Enter a new date.</a>
             </div>
-            <div class="form-group">
-                <label for="day">Day (e.g. 01)</label>
-                <input type="text" id="day" name="day">
-            </div>
-            <div class="form-group">
-                <label for="year">Year (e.g. 2001)</label>
-                <input type="text" id="year" name="year">
-            </div>
-            <div class="form-group">
-                <button id="submit">Submit</button>
-            </div>
-            <pre class="response">
+        </main>
+        <script>
+            function doSub() {
+                //ev.preventDefault();
+                currentForm = 'qodForm';
+                let month = document.getElementById('month');
+                let day = document.getElementById('day');
+                let year = document.getElementById('year');
 
-            </pre>
-        </fieldset>
-    </form>
-    <p id="qodDisplay"></p>
-    <a href="http://localhost:3000/qod">Enter a new date.</a>
-    <a href="http://localhost:3000">Logout</a>
-</div>
+                let data = {month, day, year};
+
+                send('qod', data, 'POST');
+            }
+
+            function send(endpoint, data, method) {
+                let key = sessionStorage.getItem('mySiteAPIKey');
+                let url = `http://localhost:3000/${endpoint}`;
+                
+                let h = new Headers();
+
+                //h.append('Content-Type', 'application/json');
+                //h.append('Accept', 'application/json');
+
+                h.append('Content-Type', 'text/plain');
+                h.append('x-api-key', key);
+                
+                let req = new Request(url, {
+                    method,
+                    headers: h,
+                    body: data,
+                });
+                
+                fetch(req)
+                    .then((res) => res.json())
+                    .then(success)
+                    .catch(fail);
+            }
+
+            function fail(err) {
+                console.log(err);
+                console.warn('Error occured');
+            }
+
+            function success(content) {
+
+                if ('error' in content) {
+                    fail(content.error);
+                    console.log(content.error);
+                    return;
+                }
+                return;
+                
+                let data = content.data;
+
+                let pre = document.querySelector(`#${currentForm} .response`);
+                pre.textContent = data;
+
+                //if (currentForm == 'regForm') {
+                //    console.log('saving api key');
+                //    sessionStorage.setItem('mySiteAPIkey', data.apikey);
+                //    console.log('data.apikey: ', data.apikey);
+                //}
+            }
+        </script>
+    </body>
+</html>
